@@ -1,0 +1,65 @@
+# API Gateway Configuration Example
+
+server:
+  port: 8080
+  environment: development
+
+jwt:
+  secret: your-super-secret-jwt-key-change-this-in-production
+  expiry: 24h
+
+mongodb:
+  uri: mongodb://localhost:27017
+  database: api_gateway
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 0
+
+rate_limit:
+  requests: 100
+  window: 60s
+
+circuit_breaker:
+  threshold: 5
+  timeout: 30s
+
+timeouts:
+  read: 15
+  write: 15
+  idle: 60
+
+cors:
+  allowed_origins:
+    - "*"
+  allowed_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed_headers:
+    - Content-Type
+    - Authorization
+
+logging:
+  level: info
+
+# Backend Services Configuration
+services:
+  - name: users
+    urls:
+      - http://localhost:3001
+    health_url: /health
+  
+  - name: products
+    urls:
+      - http://localhost:3002
+      - http://localhost:3003
+    health_url: /health
+  
+  - name: orders
+    urls:
+      - http://localhost:3004
+    health_url: /health
